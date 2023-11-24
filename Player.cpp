@@ -5,7 +5,7 @@ Player::Player(GameMechs* thisGMRef)
 {
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
-
+    
     // more actions to be included
     playerPos.setObjPos(5,5,'@');
 }
@@ -24,7 +24,9 @@ void Player::getPlayerPos(objPos &returnPos)
 
 void Player::updatePlayerDir()
 {
-    switch(input){///////need to change this to use something from game mechanisms
+    char input = mainGameMechsRef->getInput();
+    
+    switch(input){
 
         case 'a': //ASCI for "a"
                 

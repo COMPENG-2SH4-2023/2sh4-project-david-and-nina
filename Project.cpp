@@ -20,6 +20,7 @@ void DrawScreen(void);
 void LoopDelay(void);
 void CleanUp(void);
 
+objPos user;
 
 
 int main(void)
@@ -44,6 +45,9 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
+
+    user.setObjPos(10,5,'@');
+   
 
     exitFlag = false;
     user.setObjPos(10,5,'@');
@@ -71,6 +75,7 @@ void DrawScreen(void)
             objPos currentPos(c,r,0); // position right now
 
             if(currentPos.y==0||currentPos.y==(ROWMAX-1)||currentPos.x==0||currentPos.x==(COLMAX-1)) //draw boundary
+<<<<<<< HEAD
 {
                 MacUILib_printf("#");
             }
@@ -79,6 +84,18 @@ void DrawScreen(void)
                 MacUILib_printf("%c", symbol);
             }
             else{
+=======
+            {
+                MacUILib_printf("#");
+            }
+            else if(currentPos.isPosEqual(&user))
+            {
+                char symbol = user.getSymbol();
+                MacUILib_printf("%c", symbol);
+            }
+            else
+            {
+>>>>>>> 7386c14c0d773517bee33bb8800f7d778589fbca
                 MacUILib_printf(" ");
             }
             
