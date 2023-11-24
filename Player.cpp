@@ -5,7 +5,7 @@ Player::Player(GameMechs* thisGMRef)
 {
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
-
+    
     // more actions to be included
 }
 
@@ -22,6 +22,8 @@ void Player::getPlayerPos(objPos &returnPos)
 
 void Player::updatePlayerDir()
 {
+    char input = mainGameMechsRef->getInput();
+    
     // PPA3 input processing logic        
 }
 
