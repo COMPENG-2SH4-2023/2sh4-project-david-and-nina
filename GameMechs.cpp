@@ -5,8 +5,9 @@ GameMechs::GameMechs()
 {
     input = 0;
     exitFlag = false;
-    boardSizeX =20;
-    boardSizeY =10; 
+    boardSizeX =30;
+    boardSizeY =15;
+    score =0; 
 
 }
 
@@ -16,6 +17,7 @@ GameMechs::GameMechs(int boardX, int boardY)
     exitFlag = false;
     boardSizeX =boardX;
     boardSizeY =boardY; 
+    score=0;
 }
 
 // do you need a destructor?
@@ -47,7 +49,7 @@ int GameMechs::getBoardSizeY()
     return boardSizeY;
 }
 
-int getScore()
+int GameMechs:: getScore()
 {
     return score;
 }
@@ -61,19 +63,16 @@ void GameMechs::setExitTrue()
 void GameMechs::setInput(char this_input)
 {
     input = this_input;
-    return input;
 }
 
 void GameMechs::clearInput()
 {
-
+    setInput(0);
 }
 
-void incrementScore()
+void GameMechs::incrementScore()
 {
     score++;
-    return score;
 }
 
-//do i need to make space on memory for this (and destroy after)
 //make pointer in main code to this class
