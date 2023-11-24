@@ -73,20 +73,20 @@ void Player::movePlayer()
 
     //Wrap around once the "@" symbol reaches the boarder
 
-    if (playerPos.x == (getBoardSizeX()-1)){
+    if (playerPos.x == (mainGameMechsRef -> getBoardSizeX()-1)){
         playerPos.x = 1;
     }
 
     if (playerPos.x == 0){
-        playerPos.x = (getBoardSizeX()-2);
+        playerPos.x = (mainGameMechsRef -> getBoardSizeX()-2);
     }
     
-    if (playerPos.y == (getBoardSizeY()-1)){
+    if (playerPos.y == (mainGameMechsRef -> getBoardSizeY()-1)){
         playerPos.y = 1;
     }
 
     if (playerPos.y == 0){
-        playerPos.y = (getBoardSizeY()-2);
+        playerPos.y = (mainGameMechsRef -> getBoardSizeY()-2);
     }
 }
 
