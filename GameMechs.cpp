@@ -47,7 +47,7 @@ int GameMechs::getBoardSizeY()
     return boardSizeY;
 }
 
-int getScore()
+int GameMechs::getScore()
 {
     return score;
 }
@@ -61,7 +61,6 @@ void GameMechs::setExitTrue()
 void GameMechs::setInput(char this_input)
 {
     input = this_input;
-    return input;
 }
 
 void GameMechs::clearInput()
@@ -69,10 +68,9 @@ void GameMechs::clearInput()
 
 }
 
-void incrementScore()
+void GameMechs::incrementScore()
 {
     score++;
-    return score;
 }
 
 //do i need to make space on memory for this (and destroy after)
