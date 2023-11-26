@@ -52,6 +52,9 @@ void Player::updatePlayerDir()
                 myDir = DOWN;
             }
             break;
+
+        default:
+            break;
     }    
 }
 

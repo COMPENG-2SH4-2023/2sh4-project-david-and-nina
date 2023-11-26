@@ -1,6 +1,8 @@
 #include <iostream>
 #include "MacUILib.h"
 #include "objPos.h"
+#include "Player.h"
+#include "GameMechs.h"
 
 
 using namespace std;
@@ -9,9 +11,8 @@ using namespace std;
 #define ROWMAX 10
 #define COLMAX 20
 
-bool exitFlag;
-
-objPos user;
+GameMechs* myGM;
+Player* myPlayer;
 
 void Initialize(void);
 void GetInput(void);
@@ -20,15 +21,13 @@ void DrawScreen(void);
 void LoopDelay(void);
 void CleanUp(void);
 
-objPos user;
-
 
 int main(void)
 {
 
     Initialize();
 
-    while(exitFlag == false)  
+    while(myGM->getExitFlagStatus() == false)  
     {
         GetInput();
         RunLogic();
@@ -46,49 +45,44 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-    user.setObjPos(10,5,'@');
-   
+    myGM = new GameMechs(30,15);
+    myPlayer = new Player(myGM);
 
-    exitFlag = false;
-    user.setObjPos(10,5,'@');
 }
 
 void GetInput(void)
 {
-   
+    myGM -> getInput();
 }
 
 void RunLogic(void)
 {
+    myPlayer -> updatePlayerDir();
+    myPlayer -> movePlayer();
     
+    myGM -> clearInput();
 }
 
 void DrawScreen(void)
 {
     MacUILib_clearScreen();
     objPos currentPos;
+    myPlayer -> getPlayerPos(currentPos);//get player position
 
-    for(int r=0; r<ROWMAX;r++) //number of rows, maybe change
+    for(int r=0; r<myGM->getBoardSizeY(); r++) //number of rows
     {
-        for(int c=0; c<COLMAX; c++) //number of columns
+        for(int c=0; c<myGM->getBoardSizeX(); c++) //number of columns
         {
-            objPos currentPos(c,r,0); // position right now
-
-            if(currentPos.y==0||currentPos.y==(ROWMAX-1)||currentPos.x==0||currentPos.x==(COLMAX-1)) //draw boundary
-            {
+            
+            if (r==0 || r==(myGM->getBoardSizeY()-1) || c==0 || c==(myGM->getBoardSizeX()-1)){
                 MacUILib_printf("#");
             }
-            else if(currentPos.isPosEqual(&user))
-            {
-                char symbol = user.getSymbol();
-                MacUILib_printf("%c", symbol);
+            else if(r == currentPos.y && c== currentPos.x){
+                MacUILib_printf("%c", currentPos.symbol);
             }
-            else
-            {
+            else{
                 MacUILib_printf(" ");
             }
-            
-           
         }
         MacUILib_printf("\n");
     }
@@ -106,4 +100,7 @@ void CleanUp(void)
     MacUILib_clearScreen();    
   
     MacUILib_uninit();
+
+    delete myGM;
+    delete myPlayer;
 }
