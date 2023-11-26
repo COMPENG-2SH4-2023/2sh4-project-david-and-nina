@@ -3,6 +3,7 @@
 #include "objPos.h"
 #include "Player.h"
 #include "GameMechs.h"
+#include "Food.h"
 
 
 using namespace std;
@@ -13,6 +14,7 @@ using namespace std;
 
 GameMechs* myGM;
 Player* myPlayer;
+Food* myFood;
 
 void Initialize(void);
 void GetInput(void);
@@ -47,6 +49,11 @@ void Initialize(void)
 
     myGM = new GameMechs(30,15);
     myPlayer = new Player(myGM);
+    myFood = new Food(myGM);
+    
+    objPos player_init = {15,7,'a'};
+
+    myFood->generateFood(player_init);
 
 }
 
@@ -59,6 +66,8 @@ void RunLogic(void)
 {
     myPlayer -> updatePlayerDir();
     myPlayer -> movePlayer();
+
+
     
     myGM -> clearInput();
 }
@@ -66,8 +75,10 @@ void RunLogic(void)
 void DrawScreen(void)
 {
     MacUILib_clearScreen();
-    objPos currentPos;
-    myPlayer -> getPlayerPos(currentPos);//get player position
+    objPos currentPlayPos;
+    objPos currentFoodPos;
+    myPlayer -> getPlayerPos(currentPlayPos);//get player position
+    myFood -> getFoodPos(currentFoodPos);
 
     for(int r=0; r<myGM->getBoardSizeY(); r++) //number of rows
     {
@@ -77,8 +88,11 @@ void DrawScreen(void)
             if (r==0 || r==(myGM->getBoardSizeY()-1) || c==0 || c==(myGM->getBoardSizeX()-1)){
                 MacUILib_printf("#");
             }
-            else if(r == currentPos.y && c== currentPos.x){
-                MacUILib_printf("%c", currentPos.symbol);
+            else if (r==currentPlayPos.y && c==currentPlayPos.x){
+                MacUILib_printf("%c", currentPlayPos.symbol);
+            }
+            else if (r==currentFoodPos.y && c==currentFoodPos.x){
+                MacUILib_printf("%c", currentFoodPos.symbol);
             }
             else{
                 MacUILib_printf(" ");
@@ -103,4 +117,5 @@ void CleanUp(void)
 
     delete myGM;
     delete myPlayer;
+    delete myFood;
 }
