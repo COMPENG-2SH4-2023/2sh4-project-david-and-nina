@@ -50,17 +50,12 @@ void objPosArrayList::removeHead()
         aList[i-1].setObjPos(aList[i]); //shifts all elements of the list one element towards the tail 
     }
 
-    aList[listSize-1].setObjPos(-1,-1,' ');
     listSize--;
-
 }
 
 void objPosArrayList::removeTail()
 {
-    
-    aList[listSize-1].setObjPos(-1,-1,' ');
     listSize--;
-
 }
 
 void objPosArrayList::getHeadElement(objPos &returnPos)
