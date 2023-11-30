@@ -2,6 +2,7 @@
 #include "MacUILib.h"
 #include "objPos.h"
 #include "Player.h"
+#include "objPosArrayList.h"
 #include "GameMechs.h"
 #include "Food.h"
 
@@ -51,9 +52,10 @@ void Initialize(void)
     myPlayer = new Player(myGM);
     myFood = new Food(myGM);
     
-    objPos player_init = {15,7,'a'};
+    objPos tempPos; 
+    tempPos.setObjPos(15,7,'@');
 
-    myFood->generateFood(player_init);
+    myFood->generateFood(tempPos);//how to turn it into array list operation NEED TO DO
 
 }
 
@@ -75,21 +77,35 @@ void RunLogic(void)
 void DrawScreen(void)
 {
     MacUILib_clearScreen();
-    objPos currentPlayPos;
+
+    bool drawn;
+    
+    objPosArrayList* playBody = myPlayer->getPlayerPos();
+    objPos tempBody;
+
     objPos currentFoodPos;
-    myPlayer -> getPlayerPos(currentPlayPos);//get player position
     myFood -> getFoodPos(currentFoodPos);
 
     for(int r=0; r<myGM->getBoardSizeY(); r++) //number of rows
     {
         for(int c=0; c<myGM->getBoardSizeX(); c++) //number of columns
         {
-            
+            drawn = false;
+
+            for (int a=0; a<playBody->getSize(); a++){
+                playBody->getElement(tempBody,a);
+                if (tempBody.x==c && tempBody.y==r){
+                    MacUILib_printf("%c",tempBody.symbol);
+                    drawn = true;
+                    break;
+                }
+            }
+
+            if (drawn) continue;
+            //if player body was drawn, do not draw anythomg below
+
             if (r==0 || r==(myGM->getBoardSizeY()-1) || c==0 || c==(myGM->getBoardSizeX()-1)){
                 MacUILib_printf("#");
-            }
-            else if (r==currentPlayPos.y && c==currentPlayPos.x){
-                MacUILib_printf("%c", currentPlayPos.symbol);
             }
             else if (r==currentFoodPos.y && c==currentFoodPos.x){
                 MacUILib_printf("%c", currentFoodPos.symbol);
@@ -101,6 +117,8 @@ void DrawScreen(void)
         MacUILib_printf("\n");
     }
 
+    MacUILib_printf("Score: %d\n",myGM->getScore());
+    
 }
 
 void LoopDelay(void)

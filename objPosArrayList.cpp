@@ -46,16 +46,20 @@ void objPosArrayList::insertTail(objPos thisPos)
 
 void objPosArrayList::removeHead()
 {
-    for (int i=listSize-1; i>=0; i--){
-        aList[i-1].setObjPos(aList[i]); //shifts all elements of the list one element towards the tail 
-    }
+    if(listSize != 0){
+        for (int i=listSize-1; i>=0; i--){
+            aList[i-1].setObjPos(aList[i]); //shifts all elements of the list one element towards the tail 
+        }
 
-    listSize--;
+        listSize--; //lazy delete, but saves processing time
+    }
 }
 
 void objPosArrayList::removeTail()
 {
-    listSize--;
+    if(listSize != 0){
+        listSize--; //lazy delete, but saves processing time
+    }
 }
 
 void objPosArrayList::getHeadElement(objPos &returnPos)

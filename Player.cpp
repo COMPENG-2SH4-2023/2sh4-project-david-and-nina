@@ -7,19 +7,29 @@ Player::Player(GameMechs* thisGMRef)
     myDir = STOP;
     
     // more actions to be included
-    playerPos.setObjPos(15,7,'@');
+    objPos tempPos;
+    tempPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2,mainGameMechsRef->getBoardSizeY()/2,'@');
+
+    
+    playerPosList = new objPosArrayList();
+    playerPosList->insertHead(tempPos);
+    playerPosList->insertHead(tempPos);
+    playerPosList->insertHead(tempPos);
+    playerPosList->insertHead(tempPos);
+    playerPosList->insertHead(tempPos);
+
 }
 
 
 Player::~Player()
 {
-    // delete any heap members here
+    delete playerPosList;
 }
 
-void Player::getPlayerPos(objPos &returnPos)
+objPosArrayList* Player::getPlayerPos()
 {
     // return the reference to the playerPos arrray list
-    returnPos.setObjPos(playerPos.x,playerPos.y,playerPos.symbol);
+    return playerPosList;
 }
 
 void Player::updatePlayerDir()
@@ -60,36 +70,48 @@ void Player::updatePlayerDir()
 
 void Player::movePlayer()
 {
+    
+    objPos currentHead; //holding position information of current head
+    playerPosList->getHeadElement(currentHead);
+
+    
     if(myDir == LEFT){
-        playerPos.x--;
+        currentHead.x--;
     }
     else if(myDir == RIGHT){
-        playerPos.x++;
+        currentHead.x++;
     }
     else if(myDir == UP){
-        playerPos.y--;
+        currentHead.y--;
     }
     else if(myDir == DOWN){
-        playerPos.y++;
+        currentHead.y++;
     }
     
 
     //Wrap around once the "@" symbol reaches the boarder
 
-    if (playerPos.x == (mainGameMechsRef -> getBoardSizeX()-1)){
-        playerPos.x = 1;
+    if (currentHead.x == (mainGameMechsRef -> getBoardSizeX()-1)){
+        currentHead.x = 1;
     }
 
-    if (playerPos.x == 0){
-        playerPos.x = (mainGameMechsRef -> getBoardSizeX()-2);
+    if (currentHead.x == 0){
+        currentHead.x = (mainGameMechsRef -> getBoardSizeX()-2);
     }
     
-    if (playerPos.y == (mainGameMechsRef -> getBoardSizeY()-1)){
-        playerPos.y = 1;
+    if (currentHead.y == (mainGameMechsRef -> getBoardSizeY()-1)){
+        currentHead.y = 1;
     }
 
-    if (playerPos.y == 0){
-        playerPos.y = (mainGameMechsRef -> getBoardSizeY()-2);
+    if (currentHead.y == 0){
+        currentHead.y = (mainGameMechsRef -> getBoardSizeY()-2);
     }
+
+    playerPosList->insertHead(currentHead);
+    playerPosList->removeTail();
+
 }
+
+
+
 
