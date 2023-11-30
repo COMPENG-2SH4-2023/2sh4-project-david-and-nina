@@ -21,7 +21,7 @@ class Food
         Food(GameMechs* thisGameRef); //constructor
         ~Food(); //destructor
 
-        void generateFood(objPos blockOff);//NEED TO DO
+        void generateFood(objPosArrayList &blockOff);//NEED TO DO
         //need to accept player bpdy array list and go through each element to make
         //sure they are all blocked off from random food generation
 

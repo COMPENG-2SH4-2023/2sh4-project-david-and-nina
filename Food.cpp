@@ -1,9 +1,4 @@
 #include "Food.h"
-#include "MacUILib.h"
-#include "objPos.h"
-#include "objPosArrayList.h"
-#include "GameMechs.h"
-
 
 Food:: Food(GameMechs* thisGameRef)
 {
@@ -17,23 +12,42 @@ Food:: ~Food()
     //finish this
 }
 
-void Food:: generateFood(objPos blockOff)
+void Food:: generateFood(objPosArrayList &blockOff)
 {
     //generate random x and y coord and make sure they arent border or blockoff position
     srand(time(NULL));
     int randomX=0;
     int randomY=0;
 
-    // check x and y against 0 and bordersize x and y. 
-    randomX = (rand()%(mainGameRef->getBoardSizeX()-1))+1;
-    randomY = (rand()%(mainGameRef->getBoardSizeY()-1))+1;
+    objPos checker;
+    bool flag = true;
 
-    //in objPos class there is a method to see if position is equal. 
-    if(!(foodPos.isPosEqual(&blockOff))) //if foodPos doesn't equal the blockoff position
-    
-    {
-        foodPos.setObjPos(randomX, randomY, 'o'); //set to the random coordinate
+    // check x and y against 0 and bordersize x and y. 
+    while(flag){
+        flag = false;
+
+        randomX = (rand()%(mainGameRef->getBoardSizeX()-2))+1;
+        randomY = (rand()%(mainGameRef->getBoardSizeY()-2))+1;
+
+        objPos random (randomX,randomY,'o');
+
+        //in objPos class there is a method to see if position is equal. 
+        for (int i=0; i<blockOff.getSize(); i++){
+            blockOff.getElement(checker,i);
+            if(random.isPosEqual(&checker)) //if foodPos doesn't equal the blockoff position
+            {
+                flag=true;
+            }
+        }
+        
+        if (!flag){
+            foodPos.setObjPos(random); //set to the random coordinate
+        }
     }
+    
+    
+    
+    
 
 }
 

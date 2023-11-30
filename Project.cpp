@@ -49,13 +49,13 @@ void Initialize(void)
     MacUILib_clearScreen();
 
     myGM = new GameMechs(30,15);
-    myPlayer = new Player(myGM);
     myFood = new Food(myGM);
-    
-    objPos tempPos; 
-    tempPos.setObjPos(15,7,'@');
+    myPlayer = new Player(myGM, myFood);
 
-    myFood->generateFood(tempPos);//how to turn it into array list operation NEED TO DO
+    objPos blockOff;
+    objPosArrayList *playerbody = myPlayer->getPlayerPos();
+
+    myFood->generateFood(*playerbody);//how to turn it into array list operation NEED TO DO
 
 }
 
@@ -69,8 +69,6 @@ void RunLogic(void)
     myPlayer -> updatePlayerDir();
     myPlayer -> movePlayer();
 
-
-    
     myGM -> clearInput();
 }
 

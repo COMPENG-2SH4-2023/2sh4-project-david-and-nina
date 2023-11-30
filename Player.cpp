@@ -1,15 +1,15 @@
 #include "Player.h"
 
 
-Player::Player(GameMechs* thisGMRef)
+Player::Player(GameMechs* thisGMRef, Food* thisFood)
 {
     mainGameMechsRef = thisGMRef;
+    mainFood = thisFood;
     myDir = STOP;
     
     // more actions to be included
     objPos tempPos;
     tempPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2,mainGameMechsRef->getBoardSizeY()/2,'@');
-
     
     playerPosList = new objPosArrayList();
     playerPosList->insertHead(tempPos);
@@ -17,6 +17,11 @@ Player::Player(GameMechs* thisGMRef)
     playerPosList->insertHead(tempPos);
     playerPosList->insertHead(tempPos);
     playerPosList->insertHead(tempPos);
+    playerPosList->insertHead(tempPos);
+    playerPosList->insertHead(tempPos);
+    playerPosList->insertHead(tempPos);
+    playerPosList->insertHead(tempPos);
+    
 
 }
 
@@ -28,7 +33,6 @@ Player::~Player()
 
 objPosArrayList* Player::getPlayerPos()
 {
-    // return the reference to the playerPos arrray list
     return playerPosList;
 }
 
@@ -62,6 +66,10 @@ void Player::updatePlayerDir()
                 myDir = DOWN;
             }
             break;
+        
+        case 27:
+            mainGameMechsRef->setExitTrue();
+            break;
 
         default:
             break;
@@ -70,48 +78,77 @@ void Player::updatePlayerDir()
 
 void Player::movePlayer()
 {
-    
+
     objPos currentHead; //holding position information of current head
     playerPosList->getHeadElement(currentHead);
-
     
-    if(myDir == LEFT){
-        currentHead.x--;
-    }
-    else if(myDir == RIGHT){
-        currentHead.x++;
-    }
-    else if(myDir == UP){
-        currentHead.y--;
-    }
-    else if(myDir == DOWN){
-        currentHead.y++;
+    objPos currentFood;
+    mainFood->getFoodPos(currentFood);
+
+    if (currentHead.x == currentFood.x && currentHead.y == currentFood.y){
+        playerPosList->insertHead(currentHead);
+        mainFood->generateFood(*playerPosList);
+        mainGameMechsRef->incrementScore();
     }
     
+    else{
 
-    //Wrap around once the "@" symbol reaches the boarder
+        if(myDir == LEFT){
+            currentHead.x--;
+        }
+        else if(myDir == RIGHT){
+            currentHead.x++;
+        }
+        else if(myDir == UP){
+            currentHead.y--;
+        }
+        else if(myDir == DOWN){
+            currentHead.y++;
+        }
+        
 
-    if (currentHead.x == (mainGameMechsRef -> getBoardSizeX()-1)){
-        currentHead.x = 1;
+        //Wrap around once the "@" symbol reaches the boarder
+
+        if (currentHead.x == (mainGameMechsRef -> getBoardSizeX()-1)){
+            currentHead.x = 1;
+        }
+
+        if (currentHead.x == 0){
+            currentHead.x = (mainGameMechsRef -> getBoardSizeX()-2);
+        }
+        
+        if (currentHead.y == (mainGameMechsRef -> getBoardSizeY()-1)){
+            currentHead.y = 1;
+        }
+
+        if (currentHead.y == 0){
+            currentHead.y = (mainGameMechsRef -> getBoardSizeY()-2);
+        }
+
+        playerPosList->insertHead(currentHead);
+        playerPosList->removeTail();
     }
 
-    if (currentHead.x == 0){
-        currentHead.x = (mainGameMechsRef -> getBoardSizeX()-2);
+    if(checkSelfCollision()){
+        mainGameMechsRef->setExitTrue();
     }
-    
-    if (currentHead.y == (mainGameMechsRef -> getBoardSizeY()-1)){
-        currentHead.y = 1;
-    }
-
-    if (currentHead.y == 0){
-        currentHead.y = (mainGameMechsRef -> getBoardSizeY()-2);
-    }
-
-    playerPosList->insertHead(currentHead);
-    playerPosList->removeTail();
-
 }
 
+ bool Player::checkSelfCollision(){
+    objPos currentHead; //holding position information of current head
+    playerPosList->getHeadElement(currentHead);
+    
+    objPos bodyElement; //holding position information of current head
+
+    for(int i=1; i<playerPosList->getSize(); i++){
+        
+        playerPosList->getElement(bodyElement,i);
+        if(currentHead.isPosEqual(&bodyElement)){
+            mainGameMechsRef->setLoseFlag();
+        }
+
+    }
+ }
 
 
 

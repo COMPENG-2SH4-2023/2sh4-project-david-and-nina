@@ -4,6 +4,7 @@
 #include "GameMechs.h"
 #include "objPos.h"
 #include "objPosArrayList.h"
+#include "Food.h"
 
 class Player
 {
@@ -16,7 +17,7 @@ class Player
     public:
         enum Dir {UP, DOWN, LEFT, RIGHT, STOP};  // This is the direction state
 
-        Player(GameMechs* thisGMRef);
+        Player(GameMechs* thisGMRef, Food* thisFood);
         ~Player();
 
         objPosArrayList* getPlayerPos(); // Upgrade this in iteration 3.
@@ -31,12 +32,16 @@ class Player
         //add self collision check with set lose flag function and exitflag both to true in myGM
         //differentiate a losing vs ending game message
 
+        bool checkSelfCollision();
+
+
     private:
         objPosArrayList* playerPosList;   // Upgrade this in iteration 3.       
         enum Dir myDir;
 
         // Need a reference to the Main Game Mechanisms
         GameMechs* mainGameMechsRef;
+        Food* mainFood;
 };
 
 #endif
