@@ -20,11 +20,6 @@ Player::Player(GameMechs* thisGMRef, Food* thisFood)
     playerPosList->insertHead(tempPos);
     playerPosList->insertHead(tempPos);
     playerPosList->insertHead(tempPos);
-    playerPosList->insertHead(tempPos);
-    playerPosList->insertHead(tempPos);
-    playerPosList->insertHead(tempPos);
-    
-
 }
 
 
@@ -135,7 +130,7 @@ void Player::movePlayer()
             playerPosList->getElement(bodyElement,i); //checking if the player head intersects any of the player body elements
             if(currentHead.isPosEqual(&bodyElement)){
                 mainGameMechsRef->setLoseFlag();
-                return; //return true if there is a self collision
+                break; //return true if there is a self collision
             }
 
         }

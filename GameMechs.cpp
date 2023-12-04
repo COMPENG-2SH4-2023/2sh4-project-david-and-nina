@@ -58,6 +58,8 @@ int GameMechs:: getScore()
     return score;
 }
 
+
+
 //Setters:
 void GameMechs::setExitTrue()
 {
@@ -67,6 +69,8 @@ void GameMechs::setExitTrue()
 void GameMechs::setLoseFlag(){
     loseFlag = true;
 }
+
+
 
 void GameMechs::setInput(char this_input)
 {
