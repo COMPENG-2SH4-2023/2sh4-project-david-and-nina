@@ -9,7 +9,7 @@ Food:: Food(GameMechs* thisGameRef)
 
 Food:: ~Food()
 {
-    //finish this
+    
 }
 
 void Food:: generateFood(objPosArrayList &blockOff)
@@ -44,11 +44,6 @@ void Food:: generateFood(objPosArrayList &blockOff)
             foodPos.setObjPos(random); //set to the random coordinate
         }
     }
-    
-    
-    
-    
-
 }
 
 void Food:: getFoodPos(objPos &returnPos)

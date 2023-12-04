@@ -30,7 +30,7 @@ int main(void)
 
     Initialize();
 
-    while(myGM->getExitFlagStatus() == false || myGM->getLoseFlagStatus() == false)  
+    while(myGM->getExitFlagStatus() == false)  
     {
         GetInput();
         RunLogic();
@@ -55,7 +55,7 @@ void Initialize(void)
     objPos blockOff;
     objPosArrayList *playerbody = myPlayer->getPlayerPos();
 
-    myFood->generateFood(*playerbody);//how to turn it into array list operation NEED TO DO
+    myFood->generateFood(*playerbody);
 
 }
 
@@ -116,17 +116,13 @@ void DrawScreen(void)
     }
 
     MacUILib_printf("Score: %d\n",myGM->getScore());
-
-    if(myGM->getLoseFlagStatus())
-    {
-        
-        MacUILib_printf("Oh No, you lost!\n");
-        MacUILib_printf("Click ESC to exit.\n");
-    }
+    MacUILib_printf("Click ESC to exit.\n");
+    
 
     if(myGM->getExitFlagStatus())
     {
         MacUILib_printf("Game was shut down\n");
+        MacUILib_Delay(999999);
     }
     
 }
