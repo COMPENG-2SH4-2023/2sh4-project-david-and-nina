@@ -119,7 +119,9 @@ void DrawScreen(void)
 
     if(myGM->getLoseFlagStatus())
     {
+        
         MacUILib_printf("Oh No, you lost!\n");
+        MacUILib_printf("Click ESC to exit.\n");
     }
 
     if(myGM->getExitFlagStatus())
