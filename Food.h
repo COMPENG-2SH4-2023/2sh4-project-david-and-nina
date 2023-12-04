@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <time.h>
 
+#include "MacUILib.h"
 #include "objPos.h"
 #include "objPosArrayList.h"
 #include "GameMechs.h"

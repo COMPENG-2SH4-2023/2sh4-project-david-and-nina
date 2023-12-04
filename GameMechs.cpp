@@ -20,10 +20,7 @@ GameMechs::GameMechs(int boardX, int boardY)
     score=0;
 }
 
-// do you need a destructor?
-
-//do i need to allocate memory for this
-
+//Getters:
 bool GameMechs::getExitFlagStatus()
 {
     return exitFlag;
@@ -59,7 +56,7 @@ int GameMechs:: getScore()
     return score;
 }
 
-
+//Setters:
 void GameMechs::setExitTrue()
 {
     exitFlag = true;
@@ -83,5 +80,3 @@ void GameMechs::incrementScore()
 {
     score++;
 }
-
-//make pointer in main code to this class

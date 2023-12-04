@@ -3,8 +3,8 @@
 
 Player::Player(GameMechs* thisGMRef, Food* thisFood)
 {
-    mainGameMechsRef = thisGMRef;
-    mainFood = thisFood;
+    mainGameMechsRef = thisGMRef; //pointer to game mechanics class 
+    mainFood = thisFood; //pointer to food class
     myDir = STOP;
     
     // more actions to be included
@@ -12,11 +12,6 @@ Player::Player(GameMechs* thisGMRef, Food* thisFood)
     tempPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2,mainGameMechsRef->getBoardSizeY()/2,'@');
     
     playerPosList = new objPosArrayList();
-    playerPosList->insertHead(tempPos);
-    playerPosList->insertHead(tempPos);
-    playerPosList->insertHead(tempPos);
-    playerPosList->insertHead(tempPos);
-    playerPosList->insertHead(tempPos);
     playerPosList->insertHead(tempPos);
     playerPosList->insertHead(tempPos);
     playerPosList->insertHead(tempPos);
@@ -85,11 +80,13 @@ void Player::movePlayer()
     objPos currentFood;
     mainFood->getFoodPos(currentFood);
 
+    //food collision: if the position of the snake head is at a food it will enter this if statement
     if (currentHead.x == currentFood.x && currentHead.y == currentFood.y){
-        playerPosList->insertHead(currentHead);
-        mainFood->generateFood(*playerPosList);
-        mainGameMechsRef->incrementScore();
+        playerPosList->insertHead(currentHead); //still inserts a head, but doesn't delete the tail 
+        mainFood->generateFood(*playerPosList); // calls generate food function
+        mainGameMechsRef->incrementScore(); //adds to the score
     }
+
     
     else{
 
@@ -129,9 +126,11 @@ void Player::movePlayer()
         playerPosList->removeTail();
     }
 
-    if(checkSelfCollision()){
+    if (checkSelfCollision()){
         mainGameMechsRef->setExitTrue();
+       // MacUILib_printf("Exit Flag Status: %d\n", mainGameMechsRef-> getExitFlagStatus());
     }
+    
 }
 
  bool Player::checkSelfCollision(){
@@ -142,12 +141,14 @@ void Player::movePlayer()
 
     for(int i=1; i<playerPosList->getSize(); i++){
         
-        playerPosList->getElement(bodyElement,i);
+        playerPosList->getElement(bodyElement,i); //checking if the player head intersects any of the player body elements
         if(currentHead.isPosEqual(&bodyElement)){
             mainGameMechsRef->setLoseFlag();
+            return true; //return true if there is a self collision
         }
 
     }
+    return false; //returns false if there isn't a self collision
  }
 
 

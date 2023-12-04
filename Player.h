@@ -5,6 +5,7 @@
 #include "objPos.h"
 #include "objPosArrayList.h"
 #include "Food.h"
+#include "MacUILib.h"
 
 class Player
 {

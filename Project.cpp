@@ -100,7 +100,7 @@ void DrawScreen(void)
             }
 
             if (drawn) continue;
-            //if player body was drawn, do not draw anythomg below
+            //if player body was drawn, do not draw anything below
 
             if (r==0 || r==(myGM->getBoardSizeY()-1) || c==0 || c==(myGM->getBoardSizeX()-1)){
                 MacUILib_printf("#");
@@ -116,6 +116,16 @@ void DrawScreen(void)
     }
 
     MacUILib_printf("Score: %d\n",myGM->getScore());
+
+    if(myGM->getLoseFlagStatus())
+    {
+        MacUILib_printf("Oh No, you lost!\n");
+    }
+
+    if(myGM->getExitFlagStatus())
+    {
+        MacUILib_printf("Game was shut down\n");
+    }
     
 }
 
